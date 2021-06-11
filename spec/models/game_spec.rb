@@ -78,12 +78,16 @@ RSpec.describe Game, type: :model do
       expect(user.balance).to eq prize
     end
 
-    it '.current_game_question' do
-      expect(game_w_questions.current_game_question).to eq(game_w_questions.game_questions[0])
+    describe '.current_game_question ' do
+      it 'give the current unanswered question' do
+        expect(game_w_questions.current_game_question).to eq(game_w_questions.game_questions[0])
+      end
     end
 
-    it '.previous_level' do
-      expect(game_w_questions.previous_level).to eq(game_w_questions.current_level - 1)
+    describe '.previous_level' do
+      it 'return the previous level' do
+        expect(game_w_questions.previous_level).to eq(game_w_questions.current_level - 1)
+      end
     end
   end
 
