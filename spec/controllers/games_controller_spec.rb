@@ -51,6 +51,22 @@ RSpec.describe GamesController, type: :controller do
       expect(flash[:notice]).to be
     end
 
+    # юзер пытается создать новую игру, не закончив старую
+    it 'try to create second game' do
+      # убедились что есть игра в работе
+      expect(game_w_questions.finished?).to be_falsey
+
+      # отправляем запрос на создание, убеждаемся что новых Game не создалось
+      expect { post :create }.to change(Game, :count).by(0)
+
+      game = assigns(:game) # вытаскиваем из контроллера поле @game
+      expect(game).to be_nil
+
+      # и редирект на страницу старой игры
+      expect(response).to redirect_to(game_path(game_w_questions))
+      expect(flash[:alert]).to be
+    end
+
     # юзер видит свою игру
     it '#show game' do
       get :show, id: game_w_questions.id
@@ -104,7 +120,7 @@ RSpec.describe GamesController, type: :controller do
       expect(game.current_game_question.help_hash[:audience_help].keys).to contain_exactly('a', 'b', 'c', 'd')
       expect(response).to redirect_to(game_path(game))
     end
-    
+
     # юзер берет деньги
     it 'takes money' do
       # вручную поднимем уровень вопроса до выигрыша 200
