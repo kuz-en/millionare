@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.4'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
+  gem 'pry-rails'
 
   # Гем, который использует rspec, чтобы смотреть наш сайт
   gem 'capybara'

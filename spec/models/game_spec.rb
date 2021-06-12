@@ -91,6 +91,59 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe '.answer_current_question' do
+    context 'game over' do
+      it 'false if game finished' do
+        game_w_questions.is_failed = true
+        expect(game_w_questions.answer_current_question!('a')).to be_falsey
+      end
+
+      it 'false if timeout' do
+        game_w_questions.created_at = 1.hour.ago
+        expect(game_w_questions.answer_current_question!('a')).to be_falsey
+      end
+    end
+
+    describe 'answer_correct' do
+      context 'current level is max' do
+        it 'level up with finish game' do
+          game_w_questions.current_level = 14
+          q = game_w_questions.current_game_question
+
+          expect(game_w_questions.answer_current_question!(q.correct_answer_key)).to be_truthy
+          expect(game_w_questions.current_level).to eq(15)
+          expect(game_w_questions.finished?).to be_truthy
+        end
+      end
+
+      context 'current level < max level' do
+        it 'level up without finish' do
+          game_w_questions.current_level = 1
+          q = game_w_questions.current_game_question
+
+          expect(game_w_questions.answer_current_question!(q.correct_answer_key)).to be_truthy
+          expect(game_w_questions.current_level).to eq(2)
+          expect(game_w_questions.finished?).to be_falsey
+        end
+      end
+
+      it 'boolean' do
+        q = game_w_questions.current_game_question
+        expect(game_w_questions.answer_current_question!(q.correct_answer_key)).to be_truthy
+      end
+    end
+
+    describe 'answer is not correct' do
+      it 'game finished' do
+        q = game_w_questions.current_game_question
+        wrong_key = (%w(a b c d) - [q.correct_answer_key]).sample
+
+        expect(game_w_questions.answer_current_question!(wrong_key)).to be_falsey
+        expect(game_w_questions.finished?).to be_truthy
+      end
+    end
+  end
+
   # группа тестов на проверку статуса игры
   context '.status' do
     # перед каждым тестом "завершаем игру"
