@@ -1,7 +1,6 @@
 # (c) goodprogrammer.ru
 
 require 'rails_helper'
-
 # Тестовый сценарий для модели игрового вопроса,
 # в идеале весь наш функционал (все методы) должны быть протестированы.
 RSpec.describe GameQuestion, type: :model do
@@ -97,8 +96,8 @@ RSpec.describe GameQuestion, type: :model do
 
       expect(fc).to include('считает, что это вариант')
 
-      friends_help_key = fc.split.last
-      expect(%w(A B C D)).to include(friends_help_key)
+      friends_help_key = fc.chars.last
+      expect(fc).to end_with(friends_help_key)
     end
   end
 end
