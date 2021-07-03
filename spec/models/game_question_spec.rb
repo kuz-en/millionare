@@ -95,9 +95,7 @@ RSpec.describe GameQuestion, type: :model do
       fc = game_question.help_hash[:friend_call]
 
       expect(fc).to include('считает, что это вариант')
-
-      friends_help_key = fc.chars.last
-      expect(fc).to end_with(friends_help_key)
+      expect(fc).to end_with('A').or end_with('B').or end_with('C').or end_with('D')
     end
   end
 end

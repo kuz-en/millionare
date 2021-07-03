@@ -168,7 +168,7 @@ RSpec.describe GamesController, type: :controller do
     end
 
     it 'uses fifty_fifty help' do
-      q = game_w_questions.current_game_question
+      correct_key = game_w_questions.current_game_question.correct_answer_key
 
       expect(game_w_questions.current_game_question.help_hash[:fifty_fifty]).not_to be
       expect(game_w_questions.fifty_fifty_used).to be_falsey
@@ -179,7 +179,7 @@ RSpec.describe GamesController, type: :controller do
       expect(game.finished?).to be_falsey
       expect(game.fifty_fifty_used).to be_truthy
       expect(game.current_game_question.help_hash[:fifty_fifty]).to be
-      expect(game.current_game_question.help_hash[:fifty_fifty]).to include(q.correct_answer_key)
+      expect(game.current_game_question.help_hash[:fifty_fifty]).to include(correct_key)
       expect(flash[:info]).to be
       expect(response).to redirect_to(game_path(game))
     end
