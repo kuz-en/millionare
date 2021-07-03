@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature 'user can view profile', type: :feature do
-  let(:user) { FactoryGirl.create(:user, name: 'I am groot') }
+  let(:user) { FactoryBot.create(:user, name: 'I am groot') }
 
-  let!(:game_1) { FactoryGirl.create(:game_with_questions, user: user) }
+  let!(:game_1) { FactoryBot.create(:game_with_questions, user: user) }
 
-  let!(:game_2) { FactoryGirl.create(:game_with_questions,
+  let!(:game_2) { FactoryBot.create(:game_with_questions,
                                      user: user,
                                      current_level: 3,
                                      prize: 100_500,
