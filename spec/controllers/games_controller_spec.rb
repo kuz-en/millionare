@@ -136,8 +136,8 @@ RSpec.describe GamesController, type: :controller do
     end
 
     it 'answer incorrect' do
-      q = game_w_questions.current_game_question
-      wrong_key = (%w(a b c d) - [q.correct_answer_key]).sample
+      correct_key = game_w_questions.current_game_question.correct_answer_key
+      wrong_key = (%w(a b c d) - [correct_key]).sample
 
       put :answer, id: game_w_questions.id, letter: wrong_key
 
