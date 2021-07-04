@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'users/show', type: :view do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
 
   context 'as user' do
     before(:each) do
@@ -20,7 +20,7 @@ RSpec.describe 'users/show', type: :view do
     end
 
     it 'renders game partial' do
-      assign(:games, FactoryBot.build_stubbed_list(:game, 3))
+      assign(:games, build_stubbed_list(:game, 3))
       stub_template 'users/_game.html.erb' => 'User game goes here'
 
       render
@@ -45,7 +45,7 @@ RSpec.describe 'users/show', type: :view do
     end
 
     it 'renders game partial' do
-      assign(:games, FactoryBot.build_stubbed_list(:game, 3))
+      assign(:games, build_stubbed_list(:game, 3))
       stub_template 'users/_game.html.erb' => 'User game goes here'
 
       render
