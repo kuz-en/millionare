@@ -12,7 +12,7 @@ RSpec.describe 'users/show', type: :view do
     end
 
     it 'renders user name' do
-      expect(rendered).to match "#{user.name}"
+      expect(rendered).to match user.name
     end
 
     it 'renders change password link' do
@@ -20,7 +20,7 @@ RSpec.describe 'users/show', type: :view do
     end
 
     it 'renders game partial' do
-      assign(:games, [FactoryBot.build_stubbed(:game)])
+      assign(:games, FactoryBot.build_stubbed_list(:game, 3))
       stub_template 'users/_game.html.erb' => 'User game goes here'
 
       render
@@ -37,7 +37,7 @@ RSpec.describe 'users/show', type: :view do
     end
 
     it 'renders user name' do
-      expect(rendered).to match "#{user.name}"
+      expect(rendered).to match user.name
     end
 
     it 'does not render link to change password' do
@@ -45,7 +45,7 @@ RSpec.describe 'users/show', type: :view do
     end
 
     it 'renders game partial' do
-      assign(:games, [FactoryBot.build_stubbed(:game)])
+      assign(:games, FactoryBot.build_stubbed_list(:game, 3))
       stub_template 'users/_game.html.erb' => 'User game goes here'
 
       render
