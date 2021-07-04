@@ -1,25 +1,29 @@
 require 'rails_helper'
 
 RSpec.feature 'user can view profile', type: :feature do
-  let(:user) { FactoryBot.create(:user, name: 'I am groot') }
+  let(:user) { create(:user, name: 'I am Groot') }
+  let(:user_with_games) { create(:user, name: 'Ender')}
 
-  let!(:game_1) { FactoryBot.create(:game_with_questions, user: user) }
+  let!(:game_1) { create(:game_with_questions, user: user_with_games) }
+  let!(:game_2) { create(:game_with_questions,
+                               user: user_with_games,
+                               current_level: 3,
+                               prize: 100_500,
+                               fifty_fifty_used: true,
+                               created_at: Time.parse('2021.07.03, 13:00'),
+                               finished_at: Time.parse('2021.07.03, 16:00')) }
 
-  let!(:game_2) { FactoryBot.create(:game_with_questions,
-                                     user: user,
-                                     current_level: 3,
-                                     prize: 100_500,
-                                     fifty_fifty_used: true,
-                                     created_at: Time.parse('2021.07.03, 13:00'),
-                                     finished_at: Time.parse('2021.07.03, 16:00')) }
-  scenario 'anonymous user' do
+  before(:each) do
+    login_as user
+  end
+
+  scenario 'user is successfully looking at another profile' do
       visit '/'
-      click_link 'I am groot'
+      click_link 'Ender'
 
-      expect(page).to have_current_path "/users/#{user.id}"
+      expect(page).to have_current_path "/users/#{user_with_games.id}"
 
-      expect(page).to have_content 'I am groot'
-      expect(page).to have_content 'Войти'
+      expect(page).to have_content 'Ender'
 
       expect(page).not_to have_content 'Сменить имя и пароль'
 
